@@ -95,25 +95,23 @@ docker container run -d -p 5000:5000 --name utkarsha-flask-app utkarsha0601/mern
 
 📸 **Running Container:** <img width="1107" height="322" alt="image" src="https://github.com/user-attachments/assets/5b562193-f48b-4957-8f0e-9e1f518add80" />
 
-### 🛠 Terraform Infrastructure Provisioning
+# 🛠 Terraform Infrastructure Provisioning
 
-Terraform is used to provision AWS infrastructure for the application, including VPC, ECR, and EKS.
+### Terraform is used to provision AWS infrastructure for the application, including VPC, ECR, and EKS.
 
-Project Directory Structure
+# 🌱 Terraform Folder Structure
 
-coding-assignment-prt/
-├── terraform/
-│   ├── ecr.tf
-│   ├── eks.tf
-│   ├── outputs.tf
-│   ├── vpc.tf
-│   ├── backend.tf
-│   ├── providers.tf
-│   ├── user-data.sh
+    └── Terraform/
+        ├── ecr.tf         # 🖼️ Amazon ECR repository definitions
+        ├── eks.tf         # ☸️ Amazon EKS cluster and node group resources
+        ├── outputs.tf     # 📤 Terraform output values
+        ├── providers.tf   # 🔧 AWS provider configuration
+        ├── variables.tf   # ⚙️ Input variables (region, VPC CIDR, etc.)
+        └── vpc.tf         # 🌐 VPC, subnets, and networking resources
+```
 
-
-Define AWS Provider
-File: terraform/providers.tf
+## Define AWS Provider
+# terraform/providers.tf
 ```bash
 terraform {
   required_version = ">= 1.0"
@@ -131,8 +129,8 @@ provider "aws" {
 }
 ```
 
-Define Variables
-File: terraform/variables.tf
+### Define Variables
+# terraform/variables.tf
 ```bash
 variable "aws_region" {
   description = "AWS region to deploy resources"
@@ -177,8 +175,8 @@ variable "ecr_repo_names" {
 }
 ```
 
-VPC
-File: terraform/vpc.tf
+## VPC
+# terraform/vpc.tf
 
 ```bash
 # Create VPC
@@ -238,8 +236,8 @@ resource "aws_route_table_association" "public" {
 <img width="1913" height="411" alt="image" src="https://github.com/user-attachments/assets/e5531bda-7afc-4a84-9cf3-760e0752be1a" />
 
 
-ECR
-File: terraform/ecr.tf
+## ECR
+# terraform/ecr.tf
 
 ```bash
 # Create ECR Repositories
@@ -660,7 +658,7 @@ pipeline {
 <img width="1899" height="802" alt="image" src="https://github.com/user-attachments/assets/d14730f6-eedb-4b82-8ea6-4eb0ad6915ef" />
 <img width="1891" height="878" alt="image" src="https://github.com/user-attachments/assets/a888af0f-2652-4f51-95fc-682e355328b0" />
 <img width="1906" height="460" alt="image" src="https://github.com/user-attachments/assets/90f4e8f8-f561-4ffa-a574-1138ff13051e" />
----
+
 ## 🧩 Troubleshooting
 
 | Area | 🚨 Symptom | 🔍 Possible Cause | 🛠️ Fix |
