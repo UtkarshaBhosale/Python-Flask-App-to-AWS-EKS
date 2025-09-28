@@ -1,0 +1,16 @@
+* text=auto
+*.sh  text eol=lf
+*.tf  text eol=lf
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.crash
+*.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+
+
