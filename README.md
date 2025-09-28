@@ -497,6 +497,138 @@ spec:
 ```bash
 kubectl apply -f k8s/deployment.yaml
 ```
+🔍 Verify Pods
+
+```bash
+kubectl get pods
+```
+
+📄 Create Service
+File: k8s/service.yaml
+
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+  namespace: default
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: flask
+```
+
+
+📌 Apply Service
+```bash
+kubectl apply -f k8s/service.yaml
+```
+🔍 Verify Service
+```bash
+kubectl get svc
+```
+🚀 Jenkins Pipeline Configuration for Coding assignment Prt
+Log in to Jenkins
+Click on “New Item”
+This is usually located on the left-hand side of the Jenkins dashboard
+Enter a name for your job
+Example: Coding assignment Prt
+Select “Pipeline” as the project type
+Click “OK”
+This will take you to the configuration page for the new pipeline job
+📁 Pipeline Definition
+Definition: Pipeline script from SCM
+SCM: Git
+Repository URL: https://github.com/psagar-dev/coding-assignment-prt.git
+Credentials: psagar-dev/******
+Branch Specifier: main
+Script Path: Jenkinsfile
+⚡ Trigger
+ GitHub hook trigger for GITScm polling
+📝 Notes
+This configuration uses a declarative pipeline stored in the main branch under the file Jenkinsfile.
+Ensure that the GitHub webhook is properly configured in your GitHub repository settings to trigger Jenkins jobs automatically.
+
+```bash
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION = 'ap-south-1'
+        ECR_REPO = '975050024946.dkr.ecr.ap-south-1.amazonaws.com/utkarsha-app-repo'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        EKS_CLUSTER_NAME = 'utkarsha-eks-cluster'
+        DOCKER_IMAGE = "${ECR_REPO}:${IMAGE_TAG}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                echo 'Code checked out from Git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'docker build --no-cache -t flask-app-repo .'
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                withAWS(region: "${AWS_REGION}", credentials: 'aws-credentials') {
+                    sh """
+                    # Authenticate Docker with ECR
+                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
+
+                    # Tag the local image with the full ECR repo path
+                    docker tag flask-app-repo:latest ${DOCKER_IMAGE}
+
+                    # Push the tagged image to ECR
+                    docker push ${DOCKER_IMAGE}
+                    """
+                    echo '✅ Docker image pushed to ECR'
+                }
+            }
+        }
+
+
+        stage('Deploy to EKS') {
+            steps {
+                withAWS(region: "${AWS_REGION}", credentials: 'aws-credentials') {
+                    sh """
+                    aws eks update-kubeconfig --name ${EKS_CLUSTER_NAME} --region ${AWS_REGION}
+                    sed "s|<IMAGE_NAME>|${DOCKER_IMAGE}|g" k8s/deployment.yaml > k8s/deployment-rendered.yaml
+
+                    # Apply manifests
+                    kubectl apply -f k8s/deployment-rendered.yaml
+                    kubectl apply -f k8s/service.yaml
+                    """
+                    echo 'Deployed to EKS'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
+        }
+        always {
+            sh 'docker system prune -f'
+            echo 'Cleaned up Docker resources'
+        }
+    }
+}
+```
 
 
 
