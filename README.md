@@ -1,62 +1,57 @@
-# Python-Flask-App-to-AWS-EKS-using-CI-CD
+# 🚀 Python Flask App to AWS EKS using CI/CD
 
-## Project Description
+## 📜 Project Description
 
-This project demonstrates a complete **CI/CD pipeline** for deploying a Python Flask web service to **Amazon Elastic Kubernetes Service (EKS)** using modern Infrastructure-as-Code and containerization practices.
-The goal is to showcase how to build, test, package, and deploy a Flask application in a fully automated manner, leveraging AWS and open-source DevOps tools.
+This project showcases a **complete CI/CD pipeline** for deploying a **Python 🐍 Flask** web service to **Amazon Elastic Kubernetes Service (EKS) ☸️** using modern **Infrastructure-as-Code (IaC)** and containerization practices.
 
-### Key Components
+The goal is to demonstrate how to **build 🏗️, test 🧪, package 📦, and deploy 🚀** a Flask application in a fully automated way—leveraging **AWS ☁️** and popular open-source DevOps tools.
 
-* **Flask Application**: A lightweight Python web service serving a RESTful API.
-* **Infrastructure as Code (IaC)**:
+### 🔑 Key Components
 
-  * **Terraform** provisions the entire AWS environment, including:
+* **🐍 Flask Application** – A lightweight Python web service serving a RESTful API.
+* **🏗️ Infrastructure as Code (IaC)**  
+  * **Terraform 🌱** provisions the entire AWS environment, including:  
+    * 🌐 **VPC** with subnets, Internet gateway, and security groups  
+    * ☸️ **EKS Cluster** for Kubernetes workloads  
+    * 🖼️ **ECR Repository** for container image storage
+* **🐳 Containerization** – A production-ready **Dockerfile** builds the Flask app into a portable container image.
+* **⚙️ CI/CD Pipeline** – **Jenkins 🤖** orchestrates:
+  1. 🧪 **Build & Unit Test** – Install dependencies and run tests  
+  2. 🐋 **Docker Build & Push** – Build the image and push to Amazon ECR  
+  3. 🚀 **Deploy to EKS** – Apply Kubernetes manifests to update the running application
+* **📄 Kubernetes Manifests** – YAML files define the Deployment, Service, and related resources for running the Flask app on EKS.
 
-    * **VPC** with subnets, Internet gateway, and security groups.
-    * **EKS Cluster** for Kubernetes workloads.
-    * **ECR Repository** for container image storage.
-* **Containerization**: A production-ready **Dockerfile** builds the Flask application into a portable container image.
-* **CI/CD Pipeline**:
+### 🎯 Objectives
 
-  * **Jenkins** orchestrates build, test, and deployment stages:
+* 🧩 Provide a **reproducible workflow** for deploying containerized Python web apps to AWS  
+* 🤖 Demonstrate **end-to-end automation**, from infrastructure provisioning to application deployment  
+* 📚 Serve as a **reference architecture** for teams adopting cloud-native practices
 
-    1. **Build & Unit Test** – Install dependencies and run tests.
-    2. **Docker Build & Push** – Build the image and push to Amazon ECR.
-    3. **Deploy to EKS** – Apply Kubernetes manifests to update the running application.
-* **Kubernetes Manifests**: YAML files define the Deployment, Service, and related resources for running the Flask app on EKS.
+## 📂 Project Structure
 
-### Objectives
-
-* Provide a reproducible workflow for deploying containerized Python web apps to AWS.
-* Demonstrate end-to-end automation, from infrastructure provisioning to application deployment.
-* Serve as a reference architecture for teams adopting cloud-native practices.
-
----
-
-### Project Structure
-├── Dockerfile
-├── Jenkinsfile
-├── README.md
-├── app.py
-├── deploy
-│   └── deploy.sh
-├── images/
-├── k8s
-│   ├── deployment.yaml
-│   └── service.yaml
-├── requirements.txt
-├── terraform
-│   ├── ecr.tf
-│   ├── eks.tf
-│   ├── outputs.tf
-│   ├── providers.tf
-│   ├── variables.tf
-│   └── vpc.tf
-└── test_app.py
+    ├── Dockerfile
+    ├── Jenkinsfile
+    ├── README.md
+    ├── app.py
+    ├── deploy/deploy.sh
+    ├── images/
+    ├── k8s/
+    │   ├── deployment.yaml
+    │   └── service.yaml
+    ├── requirements.txt
+    ├── terraform/
+    │   ├── ecr.tf
+    │   ├── eks.tf
+    │   ├── outputs.tf
+    │   ├── providers.tf
+    │   ├── variables.tf
+    │   └── vpc.tf
+    └── test_app.py
 
 ### 🐳 Steps to Deploy an Application on Docker
-## Dockerfile:
-``` bash
+
+## 📜 Dockerfile
+```bash
 FROM python:3.13-slim AS builder
 
 WORKDIR /app
@@ -80,22 +75,25 @@ COPY --from=builder /app /app
 EXPOSE 5000
 
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+````
 
-```
-### Local Testing & Validation
-## Build the Docker image:
+### 🧪 Local Testing & Validation
+
+## 🔨 Build the Docker Image
+
 ```bash
 docker build --no-cache -t utkarsha0601/mern-application/utkarsha-flask-app:27.09 .
 ```
 
-<img width="1916" height="676" alt="image" src="https://github.com/user-attachments/assets/e9378821-b891-4dfa-9f64-90e17d861233" />
+📸 **Build Output:** <img width="1916" height="676" alt="image" src="https://github.com/user-attachments/assets/e9378821-b891-4dfa-9f64-90e17d861233" />
+
+## ▶️ Run the Container
 
 ```bash
 docker container run -d -p 5000:5000 --name utkarsha-flask-app utkarsha0601/mern-application/utkarsha-flask-app:27.09
 ```
 
-<img width="1107" height="322" alt="image" src="https://github.com/user-attachments/assets/5b562193-f48b-4957-8f0e-9e1f518add80" />
-
+📸 **Running Container:** <img width="1107" height="322" alt="image" src="https://github.com/user-attachments/assets/5b562193-f48b-4957-8f0e-9e1f518add80" />
 
 ### 🛠 Terraform Infrastructure Provisioning
 
@@ -387,8 +385,6 @@ resource "aws_eks_node_group" "nodes" {
 }
 
 ```
-
-
 <img width="1919" height="531" alt="image" src="https://github.com/user-attachments/assets/80b6289a-151b-492d-ab18-19436e8319d3" />
 <img width="1919" height="774" alt="image" src="https://github.com/user-attachments/assets/eef80f30-6610-474a-90b5-98d88aa0637d" />
 <img width="1920" height="1358" alt="image" src="https://github.com/user-attachments/assets/fc0bfba6-72ce-4d31-b80c-4387a16a1e12" />
@@ -396,59 +392,91 @@ resource "aws_eks_node_group" "nodes" {
 <img width="1915" height="457" alt="image" src="https://github.com/user-attachments/assets/551a4ea0-ca6c-4447-b92a-024f31053ef9" />
 
 
+## 🚀 Deployment Steps
 
+Follow these steps to provision and manage the AWS infrastructure with **Terraform**:
+---
+### 1️⃣ Configure AWS Credentials
+Ensure your AWS credentials are set either in `~/.aws/credentials`  
+or as environment variables:
 
+```bash
+export AWS_ACCESS_KEY_ID=<your-key>
+export AWS_SECRET_ACCESS_KEY=<your-secret>
+````
 
+---
 
+### 2️⃣ Initialize Terraform
 
-🚀 Deployment Steps
-Configure AWS Credentials: Ensure AWS credentials are set in ~/.aws/credentials or as environment variables.
-
-Initialize Terraform
+Initialize the working directory containing Terraform configuration files:
 
 ```bash
 terraform init
 ```
-<img width="1600" height="474" alt="image" src="https://github.com/user-attachments/assets/5f327ede-6f63-434d-8b12-d88315a50388" />
 
+📸 *Example Output:* <img width="1600" height="474" alt="Terraform Init" src="https://github.com/user-attachments/assets/5f327ede-6f63-434d-8b12-d88315a50388" />
 
+---
 
-Format and Validate:
+### 3️⃣ Format & Validate
+
+Format code and validate configuration for syntax correctness:
+
 ```bash
 terraform fmt
 terraform validate
 ```
-<img width="1501" height="144" alt="image" src="https://github.com/user-attachments/assets/b61248af-4482-4e1f-9897-0f3811541145" />
 
+📸 *Validation Screenshot:* <img width="1501" height="144" alt="Terraform Validate" src="https://github.com/user-attachments/assets/b61248af-4482-4e1f-9897-0f3811541145" />
 
-Preview Changes:
+---
+
+### 4️⃣ Preview Changes
+
+Review planned infrastructure changes before applying:
+
 ```bash
 terraform plan
 ```
-<img width="1777" height="872" alt="image" src="https://github.com/user-attachments/assets/d9d5c4a3-816b-4306-b756-cb7f616dcef2" />
 
-Apply Configuration:
+📸 *Plan Output:* <img width="1777" height="872" alt="Terraform Plan" src="https://github.com/user-attachments/assets/d9d5c4a3-816b-4306-b756-cb7f616dcef2" />
+
+---
+
+### 5️⃣ Apply Configuration
+
+Provision the infrastructure on AWS:
 
 ```bash
 terraform apply
 ```
-<img width="1316" height="854" alt="image" src="https://github.com/user-attachments/assets/2b0fc302-1c62-45ed-bba8-818a848583c8" />
 
-Destroy Infrastructure (when needed): You can use destroy
+📸 *Apply Output:* <img width="1316" height="854" alt="Terraform Apply" src="https://github.com/user-attachments/assets/2b0fc302-1c62-45ed-bba8-818a848583c8" />
+
+---
+
+### 6️⃣ Destroy Infrastructure (Optional)
+
+Tear down resources when no longer needed:
 
 ```bash
 terraform destroy
 ```
 
-<img width="1538" height="793" alt="image" src="https://github.com/user-attachments/assets/9bd90bb5-b0d6-4c19-a867-0e8880a9833d" />
+📸 *Destroy Output:* <img width="1538" height="793" alt="Terraform Destroy" src="https://github.com/user-attachments/assets/9bd90bb5-b0d6-4c19-a867-0e8880a9833d" />
 
+---
 
-☸️ Steps to Deploy an Application on Kubernetes
-📄 Create Deployment
+💡 **Note:** Always review the `plan` output carefully before applying changes to avoid accidental resource modifications.
 
-File: k8s/deployment.yaml
+```
+## 🚀 Kubernetes Deployment
 
-```bash
+Use the following manifest to deploy the Flask application on your AWS EKS cluster.
+
+### 📄 k8s/deployment.yaml
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -467,42 +495,37 @@ spec:
         app: flask
     spec:
       containers:
-      - name: flask-app
-        image: <IMAGE_NAME>
-        ports:
-        - containerPort: 5000
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 5
-
+        - name: flask-app
+          image: <IMAGE_NAME>          # 🔑 Replace with your ECR image URI (e.g. 123456789012.dkr.ecr.ap-south-1.amazonaws.com/flask-app:<tag>)
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
 ```
 
-📌 Apply Deployment
+🛠 Apply the Deployment
+
+Run the following command to create/update the Deployment:
 ```bash
 kubectl apply -f k8s/deployment.yaml
 ```
-🔍 Verify Pods
-
-```bash
-kubectl get pods
-```
-
 📄 Create Service
 File: k8s/service.yaml
 
@@ -521,8 +544,6 @@ spec:
   selector:
     app: flask
 ```
-
-
 📌 Apply Service
 ```bash
 kubectl apply -f k8s/service.yaml
@@ -531,27 +552,34 @@ kubectl apply -f k8s/service.yaml
 ```bash
 kubectl get svc
 ```
-🚀 Jenkins Pipeline Configuration for Coding assignment Prt
-Log in to Jenkins
-Click on “New Item”
-This is usually located on the left-hand side of the Jenkins dashboard
-Enter a name for your job
-Example: Coding assignment Prt
-Select “Pipeline” as the project type
-Click “OK”
-This will take you to the configuration page for the new pipeline job
-📁 Pipeline Definition
-Definition: Pipeline script from SCM
-SCM: Git
-Repository URL: https://github.com/psagar-dev/coding-assignment-prt.git
-Credentials: psagar-dev/******
-Branch Specifier: main
-Script Path: Jenkinsfile
-⚡ Trigger
- GitHub hook trigger for GITScm polling
-📝 Notes
-This configuration uses a declarative pipeline stored in the main branch under the file Jenkinsfile.
-Ensure that the GitHub webhook is properly configured in your GitHub repository settings to trigger Jenkins jobs automatically.
+## ⚙️ Jenkins Pipeline Setup
+
+Follow these steps to configure a Jenkins pipeline for automatic deployments:
+
+### 🖥️ Create a New Pipeline Job
+1. **Log in to Jenkins** and click **“New Item”** (left sidebar).  
+2. Enter a job name – e.g., **`Coding-assignment-Prt`**.  
+3. Select **Pipeline** as the project type and click **OK** to open the configuration page.
+
+### 📁 Pipeline Definition
+- **Definition:** `Pipeline script from SCM`  
+- **SCM:** `Git`  
+- **Repository URL:** `https://github.com/psagar-dev/coding-assignment-prt.git`  
+- **Credentials:** `psagar-dev / ******` (use your stored Jenkins credential)  
+- **Branch Specifier:** `main`  
+- **Script Path:** `Jenkinsfile` (location of your pipeline script)
+
+### ⚡ Build Trigger
+- Enable **GitHub hook trigger for GITScm polling**  
+  This ensures that each GitHub push automatically triggers the pipeline.
+
+### 📝 Notes & Tips
+- ✅ This configuration uses a **declarative pipeline** stored in the repository’s `main` branch under the file **`Jenkinsfile`**.  
+- 🔔 Make sure a **GitHub webhook** is properly set up in your repository settings so Jenkins jobs run automatically on every push.  
+- 🔑 Confirm Jenkins has the correct credentials with permissions to clone and build the repository.
+
+---
+💡 *After saving, click **Build Now** to run your first pipeline and verify everything works!*
 
 ```bash
 pipeline {
@@ -630,6 +658,38 @@ pipeline {
 }
 ```
 <img width="1899" height="802" alt="image" src="https://github.com/user-attachments/assets/d14730f6-eedb-4b82-8ea6-4eb0ad6915ef" />
+<img width="1891" height="878" alt="image" src="https://github.com/user-attachments/assets/a888af0f-2652-4f51-95fc-682e355328b0" />
+<img width="1906" height="460" alt="image" src="https://github.com/user-attachments/assets/90f4e8f8-f561-4ffa-a574-1138ff13051e" />
+---
+## 🧩 Troubleshooting
 
+| Area | 🚨 Symptom | 🔍 Possible Cause | 🛠️ Fix |
+|------|-----------|------------------|-------|
+| **Terraform / AWS** | ❌ `AccessDenied` or `ExpiredToken` during `terraform apply` | Invalid or expired AWS credentials | Check AWS Access Key/Secret in Jenkins or local env and ensure IAM user/role has EKS, VPC, ECR permissions |
+| | ⚡ State lock errors when applying | Remote state lock (e.g., S3 + DynamoDB) stuck | Remove lock in DynamoDB table or clear `.terraform.lock.hcl` carefully |
+| **Docker / ECR** | 🛑 `no basic auth credentials` when pushing | Jenkins not authenticated to ECR | Use `aws ecr get-login-password` in pipeline and ensure IAM has `ecr:*` rights |
+| | 🔄 New image not deployed | Old image tag reused | Tag with build number/commit hash and update Kubernetes manifest with new tag |
+| **Jenkins Pipeline** | 🔐 `Invalid username or token` on `git clone` | Using GitHub password instead of PAT/SSH | Create a GitHub Personal Access Token or SSH key and store as Jenkins credential |
+| | ⚙️ `No such DSL method 'withAWS'` | Missing plugin | Install **Pipeline: AWS Steps** and **Docker Pipeline** plugins |
+| | 🌐 `Unable to connect to the server` with `kubectl` | kubeconfig not updated or wrong cluster name | Verify `aws eks update-kubeconfig` uses correct cluster name/region and Jenkins agent has AWS CLI + kubectl |
+| **Kubernetes** | 🔁 Pod in `CrashLoopBackOff` | App error or missing env vars | Run `kubectl logs <pod>` to view Flask logs and fix image or env config |
+| | ⏳ Service external IP `<pending>` | VPC/subnets don’t support LoadBalancer | Ensure service type is `LoadBalancer` and VPC has public subnets/Internet Gateway |
+| | 🗝️ Deployment fails due to missing secrets | Required Secret/ConfigMap not created | Create all Kubernetes secrets/configmaps before applying manifests |
+| **Local Dev** | ⚔️ `Address already in use` on Flask port | Port 5000 already taken | Kill existing process or run on a different port |
 
+---
+## ✅ Next Steps
 
+- 🎯 **Extend the App**: Add more Flask endpoints or integrate a database.
+- 🔒 **Security Hardening**:  
+  * Use IAM roles for service accounts (IRSA) instead of static AWS keys.  
+  * Enable HTTPS and set up proper ingress controllers.
+- 📈 **Observability**: Add Prometheus/Grafana or CloudWatch dashboards.
+
+---
+## 📜 License
+This project is licensed under the [MIT License](LICENSE).
+
+---
+💡 *Happy Deploying!*  
+If you encounter issues not covered here, please open an issue or submit a pull request.
